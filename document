@@ -1,0 +1,25 @@
+#Start Hadoop cluster
+
+#Create HADOOP_CLASSPATH
+export HADOOP_CLASSPATH=$(hadoop classpath)
+
+#Check Hadoop cluster
+
+#move to level folder 
+#compile java
+javac -classpath $HADOOP_CLASSPATH -d class WordCount.java
+
+#Create jar
+jar -cvf WordCount.jar -C class/ .
+
+#Run
+hadoop jar WordCount.jar WordCount /WordCount_data/Input /WordCount_data/Output_1
+
+#read output
+hdfs dfs -cat /WordCount_data/Output_1/*
+
+#Push stop_words.txt
+hdfs dfs -put stop_words.txt /WordCount_data
+
+#Run lv3
+hadoop jar WordCount.jar WordCount /WordCount_data/Input /WordCount_data/Output_3 -skip /WordCount_data/stop_words.txt
